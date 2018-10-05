@@ -1,10 +1,19 @@
 
-# CRM Schema
+# Join Statements
+
+## Introduction
+ In this section, you will learn about several types of Join statements.
+## Objectives
+ You will be able to:
+* Compare and contrast the various types of joins
+* Understand the structure of Join statements, and the role of foreign and primary keys in them
+
+## CRM Schema
 
 In almost all cases, rather then just working with a single table we will typically need data from multiple tables. Doing this requires the use of **joins ** using shared columns from the two tables. For example, here's a diagram of a mock customer relation management database.
 <img src='Database-Schema.png' width=550>
 
-# Connecting to the Database
+## Connecting to the Database
 
 
 ```python
@@ -18,7 +27,7 @@ conn = sqlite3.connect('data.sqlite', detect_types=sqlite3.PARSE_COLNAMES)
 cur = conn.cursor()
 ```
 
-# Displaying product details along with order details
+## Displaying product details along with order details
 Let's say we need to generate some report that includes details about products from orders. To do that, we would need to take data from multiple tables in a single statement.
 
 
@@ -162,7 +171,7 @@ df.head()
 
 
 
-# Compared to the individual tables:
+## Compared to the individual tables:
 
 ### orderdetails
 
@@ -358,7 +367,7 @@ df.head()
 
 
 
-# the using clause
+## the using clause
 A more concise way to join the tables if the column name is identical is the using clauase.
 
 
@@ -496,7 +505,7 @@ df.head()
 
 
 
-# aliasing
+## Aliasing
 Alternatively, you can also alias tables by giving them an alternative shorthand name directly after them. Here we use the aliases 'o' and 'p' for orderdetails and products respectively.
 
 
@@ -640,7 +649,7 @@ df.head()
 
 
 
-# Left Joins
+## Left Joins
 
 Above, we have only been doing **inner joins** which is the intersection of the two tables. There are many other types of joins, displayed below. Of these, sqlite does not support outer joins, but it is good to be aware of as more powerful versions of sql such as postgresql support these additional functions.
 
@@ -731,7 +740,7 @@ df[df.orderNumber.isnull()].head()
 
 As you can see, its rare, but there is one product that has yet to be ordered
 
-# Primary Versus Foreign Keys
+## Primary Versus Foreign Keys
 
 Another important consideration when performing joins is to think more about the key or column you are joining on. As we'll see in upcoming lessons, this can lead to interesting behavior if the join value is not unique in one or both of the tables. In all of the above examples, we joined two tables using the **primary key**. The primary key(s) of a table are those column(s) which uniquely identify a row. You'll also see this designated in our schema diagram with the asterisk (*).
 <img src='Database-Schema.png' width=550>
