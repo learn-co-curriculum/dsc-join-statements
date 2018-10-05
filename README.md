@@ -1,23 +1,10 @@
 
-# Join Statements
+# CRM Schema
 
-## Introduction
-
-In this section, you will learn about several types of Join statements.
-
-## Objectives
-
-You will be able to:
-
-- Compare and contrast the various types of Joins
-- Understand the structure of Join statements, and the role of foreign and primary keys in them
-
-## CRM Schema
-
-In almost all cases, rather then just working with a single table we will typically need data from multiple tables. Doing this requires the use of **joins ** using shared columns from the two tables. For example, here's a diagram of a mock Customer Relationship Management (CRM) database.
+In almost all cases, rather then just working with a single table we will typically need data from multiple tables. Doing this requires the use of **joins ** using shared columns from the two tables. For example, here's a diagram of a mock customer relation management database.
 <img src='Database-Schema.png' width=550>
 
-## Connecting to the Database
+# Connecting to the Database
 
 
 ```python
@@ -31,7 +18,7 @@ conn = sqlite3.connect('data.sqlite', detect_types=sqlite3.PARSE_COLNAMES)
 cur = conn.cursor()
 ```
 
-## Displaying product details along with order details
+# Displaying product details along with order details
 Let's say we need to generate some report that includes details about products from orders. To do that, we would need to take data from multiple tables in a single statement.
 
 
@@ -50,17 +37,17 @@ df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -175,7 +162,7 @@ df.head()
 
 
 
-## Compared to the individual tables:
+# Compared to the individual tables:
 
 ### orderdetails
 
@@ -191,17 +178,17 @@ df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -276,17 +263,17 @@ df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -390,17 +377,17 @@ df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -509,7 +496,7 @@ df.head()
 
 
 
-## Aliasing
+# aliasing
 Alternatively, you can also alias tables by giving them an alternative shorthand name directly after them. Here we use the aliases 'o' and 'p' for orderdetails and products respectively.
 
 
@@ -528,17 +515,17 @@ df.head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -653,7 +640,7 @@ df.head()
 
 
 
-## Left Joins
+# Left Joins
 
 Above, we have only been doing **inner joins** which is the intersection of the two tables. There are many other types of joins, displayed below. Of these, sqlite does not support outer joins, but it is good to be aware of as more powerful versions of sql such as postgresql support these additional functions.
 
@@ -687,17 +674,17 @@ df[df.orderNumber.isnull()].head()
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -744,6 +731,199 @@ df[df.orderNumber.isnull()].head()
 
 As you can see, its rare, but there is one product that has yet to be ordered
 
+# Primary Versus Foreign Keys
+
+Another important consideration when performing joins is to think more about the key or column you are joining on. As we'll see in upcoming lessons, this can lead to interesting behavior if the join value is not unique in one or both of the tables. In all of the above examples, we joined two tables using the **primary key**. The primary key(s) of a table are those column(s) which uniquely identify a row. You'll also see this designated in our schema diagram with the asterisk (*).
+<img src='Database-Schema.png' width=550>
+
+We can also join tables using **foreign keys** which are not the primary key for that particular table, but rather another table. For example, employeeNumber is the primary key for the employees table and corresponds to the salesRepEmployeeNumber of the customers table. In the customers table, salesRepEmployeeNumber is only a foreign key, and is unlikely to be a unique identifier, as it is likely that an employee serves multiple customers. As such, in the resulting view, employeeNumber would no longer be a unique field.
+
+
+```python
+cur.execute("""select * from customers c
+                        join employees e
+                        on c.salesRepEmployeeNumber = e.employeeNumber
+                        order by employeeNumber;
+                       """)
+df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df. columns = [i[0] for i in cur.description]
+df.head()
+```
+
+
+
+
+<div>
+<style>
+    .dataframe thead tr:only-child th {
+        text-align: right;
+    }
+
+    .dataframe thead th {
+        text-align: left;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>customerNumber</th>
+      <th>customerName</th>
+      <th>contactLastName</th>
+      <th>contactFirstName</th>
+      <th>phone</th>
+      <th>addressLine1</th>
+      <th>addressLine2</th>
+      <th>city</th>
+      <th>state</th>
+      <th>postalCode</th>
+      <th>...</th>
+      <th>salesRepEmployeeNumber</th>
+      <th>creditLimit</th>
+      <th>employeeNumber</th>
+      <th>lastName</th>
+      <th>firstName</th>
+      <th>extension</th>
+      <th>email</th>
+      <th>officeCode</th>
+      <th>reportsTo</th>
+      <th>jobTitle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>124</td>
+      <td>Mini Gifts Distributors Ltd.</td>
+      <td>Nelson</td>
+      <td>Susan</td>
+      <td>4155551450</td>
+      <td>5677 Strong St.</td>
+      <td></td>
+      <td>San Rafael</td>
+      <td>CA</td>
+      <td>97562</td>
+      <td>...</td>
+      <td>1165</td>
+      <td>210500.00</td>
+      <td>1165</td>
+      <td>Jennings</td>
+      <td>Leslie</td>
+      <td>x3291</td>
+      <td>ljennings@classicmodelcars.com</td>
+      <td>1</td>
+      <td>1143</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>129</td>
+      <td>Mini Wheels Co.</td>
+      <td>Murphy</td>
+      <td>Julie</td>
+      <td>6505555787</td>
+      <td>5557 North Pendale Street</td>
+      <td></td>
+      <td>San Francisco</td>
+      <td>CA</td>
+      <td>94217</td>
+      <td>...</td>
+      <td>1165</td>
+      <td>64600.00</td>
+      <td>1165</td>
+      <td>Jennings</td>
+      <td>Leslie</td>
+      <td>x3291</td>
+      <td>ljennings@classicmodelcars.com</td>
+      <td>1</td>
+      <td>1143</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>161</td>
+      <td>Technics Stores Inc.</td>
+      <td>Hashimoto</td>
+      <td>Juri</td>
+      <td>6505556809</td>
+      <td>9408 Furth Circle</td>
+      <td></td>
+      <td>Burlingame</td>
+      <td>CA</td>
+      <td>94217</td>
+      <td>...</td>
+      <td>1165</td>
+      <td>84600.00</td>
+      <td>1165</td>
+      <td>Jennings</td>
+      <td>Leslie</td>
+      <td>x3291</td>
+      <td>ljennings@classicmodelcars.com</td>
+      <td>1</td>
+      <td>1143</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>321</td>
+      <td>Corporate Gift Ideas Co.</td>
+      <td>Brown</td>
+      <td>Julie</td>
+      <td>6505551386</td>
+      <td>7734 Strong St.</td>
+      <td></td>
+      <td>San Francisco</td>
+      <td>CA</td>
+      <td>94217</td>
+      <td>...</td>
+      <td>1165</td>
+      <td>105000.00</td>
+      <td>1165</td>
+      <td>Jennings</td>
+      <td>Leslie</td>
+      <td>x3291</td>
+      <td>ljennings@classicmodelcars.com</td>
+      <td>1</td>
+      <td>1143</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>450</td>
+      <td>The Sharp Gifts Warehouse</td>
+      <td>Frick</td>
+      <td>Sue</td>
+      <td>4085553659</td>
+      <td>3086 Ingle Ln.</td>
+      <td></td>
+      <td>San Jose</td>
+      <td>CA</td>
+      <td>94217</td>
+      <td>...</td>
+      <td>1165</td>
+      <td>77600.00</td>
+      <td>1165</td>
+      <td>Jennings</td>
+      <td>Leslie</td>
+      <td>x3291</td>
+      <td>ljennings@classicmodelcars.com</td>
+      <td>1</td>
+      <td>1143</td>
+      <td>Sales Rep</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 21 columns</p>
+</div>
+
+
+
+Notice that this also returned both columns: salesRepEmployeeNumber and employeeNumber.
+
 ## Summary
 
-Great, you now know about Join statements, how to use them and when to use which type of Join statement! Let's move over to some practice!
+In this lesson we investigated joins including the on and using clause, aliasing table names, left joins and primary and foreign keys.
