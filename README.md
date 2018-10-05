@@ -9,7 +9,7 @@ In this section, you will learn about several types of Join statements.
 
 You will be able to:
 
-- Compare and contrast the various types of joins
+- Compare and contrast the various types of Joins
 - Understand the structure of Join statements, and the role of foreign and primary keys in them
 
 ## CRM Schema
