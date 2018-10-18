@@ -38,7 +38,7 @@ cur.execute("""select * from orderdetails
                         limit 10;
                        """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -46,17 +46,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -179,7 +179,7 @@ df.head()
 ```python
 cur.execute("""select * from orderdetails limit 10;""")
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -187,17 +187,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -264,7 +264,7 @@ df.head()
 ```python
 cur.execute("""select * from products limit 10;""")
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -272,17 +272,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -378,7 +378,7 @@ cur.execute("""select * from orderdetails
                         limit 10;
                        """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -386,17 +386,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -516,7 +516,7 @@ cur.execute("""select * from orderdetails o
                         limit 10;
                        """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -524,17 +524,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -669,7 +669,7 @@ cur.execute("""select * from products
                         using(productCode);
                        """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 print(len(df))
 print(len(df[df.orderNumber.isnull()]))
 df[df.orderNumber.isnull()].head()
@@ -683,17 +683,17 @@ df[df.orderNumber.isnull()].head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
@@ -755,7 +755,7 @@ cur.execute("""select * from customers c
                         order by employeeNumber;
                        """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
-df. columns = [i[0] for i in cur.description]
+df.columns = [i[0] for i in cur.description]
 df.head()
 ```
 
@@ -763,17 +763,17 @@ df.head()
 
 
 <div>
-<style>
-    .dataframe thead tr:only-child th {
-        text-align: right;
-    }
-
-    .dataframe thead th {
-        text-align: left;
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
     }
 
     .dataframe tbody tr th {
         vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
     }
 </style>
 <table border="1" class="dataframe">
