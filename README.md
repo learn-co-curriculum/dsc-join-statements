@@ -368,7 +368,7 @@ df.head()
 
 
 ## the using clause
-A more concise way to join the tables if the column name is identical is the using clauase.
+A more concise way to join the tables if the column name is identical is the using clause.
 
 
 ```python
