@@ -3,7 +3,7 @@
 
 ## Introduction
 
-In this section, you will learn about several types of join statements.  Joins are the primary mechanism for combining data from multiple tables. In order to due this, you define the common attribute(s) between tables in order for them to be combined.
+In this section, you will learn about several types of join statements.  Joins are the primary mechanism for combining data from multiple tables. In order to do this, you define the common attribute(s) between tables in order for them to be combined.
 
 ## Objectives  
 
@@ -15,8 +15,8 @@ You will be able to:
 
 ## CRM Schema
 
-In almost all industry cases, rather then just working with a single table you will generally need data from multiple tables. Doing this requires the use of **joins** using shared columns from the two tables. For example, here's a diagram of a mock customer relation management database.
-<img src='Database-Schema.png' width=550>
+In almost all industry cases, rather than just working with a single table you will generally need data from multiple tables. Doing this requires the use of **joins** using shared columns from the two tables. For example, here's a diagram of a mock customer relationship management database.
+<img src='images/Database-Schema.png' width=550>
 
 ## Connecting to the Database
 
@@ -752,7 +752,7 @@ As you can see, its rare, but there is one product that has yet to be ordered
 ## Primary Versus Foreign Keys
 
 Another important consideration when performing joins is to think more about the key or column you are joining on. As you'll see in upcoming lessons, this can lead to interesting behavior if the join value is not unique in one or both of the tables. In all of the above examples, you joined two tables using the **primary key**. The primary key(s) of a table are those column(s) which uniquely identify a row. You'll also see this designated in our schema diagram with the asterisk (*).
-<img src='Database-Schema.png' width=550>
+<img src='images/Database-Schema.png' width=550>
 
 You can also join tables using **foreign keys** which are not the primary key for that particular table, but rather another table. For example, employeeNumber is the primary key for the employees table and corresponds to the salesRepEmployeeNumber of the customers table. In the customers table, salesRepEmployeeNumber is only a foreign key, and is unlikely to be a unique identifier, as it is likely that an employee serves multiple customers. As such, in the resulting view, employeeNumber would no longer be a unique field.
 
