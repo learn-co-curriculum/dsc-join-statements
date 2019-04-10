@@ -662,7 +662,7 @@ By default, a join is an inner join, or the intersection between two tables. In 
 
 There are many other types of joins, displayed below. Of these, sqlite does not support outer joins, but it is good to be aware of as more powerful versions of sql such as PostgreSQL support these additional functions.
 
-<img src='venn.png' width=650>
+<img src='images/venn.png' width="700">
 
 For example, the statement  
   
