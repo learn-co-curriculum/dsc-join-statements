@@ -3,14 +3,14 @@
 
 ## Introduction
 
-In this section, you will learn about several types of join statements.  Joins are the primary mechanism for combining data from multiple tables. In order to do this, you define the common attribute(s) between tables in order for them to be combined.
+In this section, you will learn about several types of `JOIN` statements.  Joins are the primary mechanism for combining data from multiple tables. In order to do this, you define the common attribute(s) between tables in order for them to be combined.
 
 ## Objectives  
 
 You will be able to:  
  
 * Compare and contrast the various types of joins
-* Discuss the syntax and structure of join statements
+* Discuss the syntax and structure of `JOIN` statements
 * Discuss the role of foreign and primary keys in them
 
 ## CRM Schema
@@ -30,20 +30,22 @@ import pandas as pd
 
 
 ```python
-conn = sqlite3.connect('data.sqlite', detect_types=sqlite3.PARSE_COLNAMES)
+conn = sqlite3.connect('data.sqlite')
 cur = conn.cursor()
 ```
 
 ## Displaying product details along with order details
-Let's say you need to generate some report that includes details about products from orders. To do that, we would need to take data from multiple tables in a single statement.
+
+Let's say you need to generate some report that includes details about products from orders. To do that, we would need to take data from multiple tables in a single statement. 
 
 
 ```python
-cur.execute("""select * from orderdetails
-                        join products
-                        on orderdetails.productCode = products.productCode
-                        limit 10;
-                       """)
+cur.execute("""SELECT * 
+               FROM orderdetails
+               JOIN products
+               ON orderdetails.productCode = products.productCode
+               LIMIT 10;
+               """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -180,11 +182,11 @@ df.head()
 
 ## Compared to the individual tables:
 
-### orderdetails
+### orderdetails table:
 
 
 ```python
-cur.execute("""select * from orderdetails limit 10;""")
+cur.execute("""SELECT * FROM orderdetails LIMIT 10;""")
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -265,11 +267,11 @@ df.head()
 
 
 
-### products
+### products table:
 
 
 ```python
-cur.execute("""select * from products limit 10;""")
+cur.execute("""SELECT * FROM products LIMIT 10;""")
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -374,16 +376,16 @@ df.head()
 
 
 
-## the using clause
-A more concise way to join the tables if the column name is identical is the using clause. Rather then saying on `tableA.column = tableB.column` we can simply say `using(column)`. Again, this only works if the column is identically named for both tables.
+## The `USING` clause
+A more concise way to join the tables, if the column name is identical, is the `USING` clause. Rather then saying on `tableA.column = tableB.column` we can simply say `using(column)`. Again, this only works if the column is **identically named** for both tables.
 
 
 ```python
-cur.execute("""select * from orderdetails
-                        join products
-                        using(productCode)
-                        limit 10;
-                       """)
+cur.execute("""SELECT * FROM orderdetails
+               JOIN products
+               USING(productCode)
+               LIMIT 10;
+               """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -512,16 +514,16 @@ df.head()
 
 
 
-## Aliasing
-Alternatively, you can also alias tables by giving them an alternative shorthand name directly after them. Here we use the aliases 'o' and 'p' for orderdetails and products respectively.
+## More Aliasing 
+Alternatively, you can also assign **tables** an alias by entering an alternative shorthand name directly after them. This is slightly different than the previous lesson where we included the `AS` keyword when creating an alias. Here we use the aliases 'o' and 'p' for `orderdetails` and `products`, respectively.
 
 
 ```python
-cur.execute("""select * from orderdetails o
-                        join products p
-                        on o.productCode = p.productCode
-                        limit 10;
-                       """)
+cur.execute("""SELECT * FROM orderdetails o
+               JOIN products p
+               ON o.productCode = p.productCode
+               LIMIT 10;
+               """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -656,9 +658,11 @@ df.head()
 
 
 
-## Left Joins
+## `LEFT JOIN`s
 
-By default, a join is an inner join, or the intersection between two tables. In other words, the join between orders and products is only for productCodes that are in both the orderdetails and products tables. If a product had yet to be ordered (and wasn't in the orderdetails table) then it would also not be in the result of the join.
+By default a `JOIN` is an `INNER JOIN`, or the intersection between two tables. In other words, the `JOIN` between orders and products is only for `productCodes` that are in both the `orderdetails` and `products` tables. If a product had yet to be ordered (and wasn't in the `orderdetails` table) then it would also not be in the result of the `JOIN`.
+
+The `LEFT JOIN` keyword returns all records from the left table (table1), and the matched records from the right table (table2). The result is NULL from the right side if there is no match.
 
 There are many other types of joins, displayed below. Of these, sqlite does not support outer joins, but it is good to be aware of as more powerful versions of sql such as PostgreSQL support these additional functions.
 
@@ -666,17 +670,18 @@ There are many other types of joins, displayed below. Of these, sqlite does not 
 
 For example, the statement  
   
-`select * from products left join orderdetails; `  
+`SELECT * FROM products LEFT JOIN orderdetails; `  
 
 would return all products, even those that hadn't been ordered. 
 You can imagine that all products in inventory should have a description in the product table, but perhaps not every product is represented in the orderdetails table. 
 
 
 ```python
-cur.execute("""select * from products
-                        left join orderdetails
-                        using(productCode);
-                       """)
+cur.execute("""SELECT * 
+               FROM products
+               LEFT JOIN orderdetails
+               USING(productCode);
+               """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 print(len(df))
@@ -747,22 +752,23 @@ df[df.orderNumber.isnull()].head()
 
 
 
-As you can see, its rare, but there is one product that has yet to be ordered
+As you can see, it's a rare occurrence, but there is one product that has yet to be ordered.
 
 ## Primary Versus Foreign Keys
 
 Another important consideration when performing joins is to think more about the key or column you are joining on. As you'll see in upcoming lessons, this can lead to interesting behavior if the join value is not unique in one or both of the tables. In all of the above examples, you joined two tables using the **primary key**. The primary key(s) of a table are those column(s) which uniquely identify a row. You'll also see this designated in our schema diagram with the asterisk (*).
 <img src='images/Database-Schema.png' width=550>
 
-You can also join tables using **foreign keys** which are not the primary key for that particular table, but rather another table. For example, employeeNumber is the primary key for the employees table and corresponds to the salesRepEmployeeNumber of the customers table. In the customers table, salesRepEmployeeNumber is only a foreign key, and is unlikely to be a unique identifier, as it is likely that an employee serves multiple customers. As such, in the resulting view, employeeNumber would no longer be a unique field.
+You can also join tables using **foreign keys** which are not the primary key for that particular table, but rather another table. For example, `employeeNumber` is the primary key for the employees table and corresponds to the `salesRepEmployeeNumber` of the customers table. In the customers table, `salesRepEmployeeNumber` is only a foreign key, and is unlikely to be a unique identifier, as it is likely that an employee serves multiple customers. As such, in the resulting view `employeeNumber` would no longer be a unique field.
 
 
 ```python
-cur.execute("""select * from customers c
-                        join employees e
-                        on c.salesRepEmployeeNumber = e.employeeNumber
-                        order by employeeNumber;
-                       """)
+cur.execute("""SELECT * 
+               FROM customers c
+               JOIN employees e
+               ON c.salesRepEmployeeNumber = e.employeeNumber
+               ORDER BY employeeNumber;
+               """)
 df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
 df.columns = [i[0] for i in cur.description]
 df.head()
@@ -940,8 +946,8 @@ df.head()
 
 
 
-Notice that this also returned both columns: salesRepEmployeeNumber and employeeNumber.
+Notice that this also returned both columns: `salesRepEmployeeNumber` and `employeeNumber`.
 
 ## Summary
 
-In this lesson you investigated joins including the on and using clause, aliasing table names, left joins and primary and foreign keys.
+In this lesson you investigated joins. This included implementing the `ON` and `USING` clauses, aliasing table names, implementing `LEFT JOIN`, and using primary vs. foreign keys.
