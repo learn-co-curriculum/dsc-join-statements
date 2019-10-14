@@ -9,13 +9,15 @@ In this section, you will learn about several types of `JOIN` statements.  Joins
 
 You will be able to:  
  
+* Write SQL queries that make use of various types of joins
 * Compare and contrast the various types of joins
-* Discuss the syntax and structure of `JOIN` statements
-* Discuss the role of foreign and primary keys in them
+* Discuss how primary and foreign keys are used in SQL
+* Decide and perform whichever type of join is best for retrieving desired data
+
 
 ## CRM Schema
 
-In almost all industry cases, rather than just working with a single table you will generally need data from multiple tables. Doing this requires the use of **joins** using shared columns from the two tables. For example, here's a diagram of a mock customer relationship management database.
+In almost all industry cases, rather than just working with a single table you will generally need data from multiple tables. Doing this requires the use of **joins** using shared columns from the two tables. For example, here's a diagram of a mock customer relationship management (CRM) database.
 <img src='images/Database-Schema.png' width=550>
 
 ## Connecting to the Database
@@ -950,4 +952,4 @@ Notice that this also returned both columns: `salesRepEmployeeNumber` and `emplo
 
 ## Summary
 
-In this lesson you investigated joins. This included implementing the `ON` and `USING` clauses, aliasing table names, implementing `LEFT JOIN`, and using primary vs. foreign keys.
+In this lesson, you investigated joins. This included implementing the `ON` and `USING` clauses, aliasing table names, implementing `LEFT JOIN`, and using primary vs. foreign keys.
