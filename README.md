@@ -837,7 +837,7 @@ df.head()
       <td>97562</td>
       <td>...</td>
       <td>1165</td>
-      <td>210500.0</td>
+      <td>210500</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -861,7 +861,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>64600.0</td>
+      <td>64600</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -885,7 +885,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>84600.0</td>
+      <td>84600</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -909,7 +909,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>105000.0</td>
+      <td>105000</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -933,7 +933,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>77600.0</td>
+      <td>77600</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
