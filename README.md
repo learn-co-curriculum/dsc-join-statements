@@ -48,7 +48,9 @@ cur.execute("""SELECT *
                ON orderdetails.productCode = products.productCode
                LIMIT 10;
                """)
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+
+# Take results and create DataFrame
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -189,7 +191,7 @@ df.head()
 
 ```python
 cur.execute("""SELECT * FROM orderdetails LIMIT 10;""")
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -274,7 +276,7 @@ df.head()
 
 ```python
 cur.execute("""SELECT * FROM products LIMIT 10;""")
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -388,7 +390,7 @@ cur.execute("""SELECT * FROM orderdetails
                USING(productCode)
                LIMIT 10;
                """)
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -526,7 +528,7 @@ cur.execute("""SELECT * FROM orderdetails o
                ON o.productCode = p.productCode
                LIMIT 10;
                """)
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -684,7 +686,7 @@ cur.execute("""SELECT *
                LEFT JOIN orderdetails
                USING(productCode);
                """)
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall()) 
 df.columns = [i[0] for i in cur.description]
 print(len(df))
 print(len(df[df.orderNumber.isnull()]))
@@ -743,10 +745,10 @@ df[df.orderNumber.isnull()].head()
       <td>7733</td>
       <td>57.01</td>
       <td>107.57</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
     </tr>
   </tbody>
 </table>
@@ -771,7 +773,7 @@ cur.execute("""SELECT *
                ON c.salesRepEmployeeNumber = e.employeeNumber
                ORDER BY employeeNumber;
                """)
-df = pd.DataFrame(cur.fetchall()) #Take results and create dataframe
+df = pd.DataFrame(cur.fetchall())
 df.columns = [i[0] for i in cur.description]
 df.head()
 ```
@@ -835,7 +837,7 @@ df.head()
       <td>97562</td>
       <td>...</td>
       <td>1165</td>
-      <td>210500.00</td>
+      <td>210500.0</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -859,7 +861,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>64600.00</td>
+      <td>64600.0</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -883,7 +885,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>84600.00</td>
+      <td>84600.0</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -907,7 +909,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>105000.00</td>
+      <td>105000.0</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
@@ -931,7 +933,7 @@ df.head()
       <td>94217</td>
       <td>...</td>
       <td>1165</td>
-      <td>77600.00</td>
+      <td>77600.0</td>
       <td>1165</td>
       <td>Jennings</td>
       <td>Leslie</td>
