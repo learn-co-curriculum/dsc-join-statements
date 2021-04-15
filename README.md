@@ -1,4 +1,3 @@
-
 # Join Statements
 
 ## Introduction
@@ -15,7 +14,7 @@ You will be able to:
 * Decide and perform whichever type of join is best for retrieving desired data
 
 
-## CRM Schema
+## CRM ERD
 
 In almost all industry cases, rather than just working with a single table you will generally need data from multiple tables. Doing this requires the use of **joins** using shared columns from the two tables. For example, here's a diagram of a mock customer relationship management (CRM) database.
 <img src='images/Database-Schema.png' width=550>
@@ -33,26 +32,23 @@ import pandas as pd
 
 ```python
 conn = sqlite3.connect('data.sqlite')
-cur = conn.cursor()
 ```
 
-## Displaying product details along with order details
+## Displaying Product Details Along with Order Details
 
 Let's say you need to generate some report that includes details about products from orders. To do that, we would need to take data from multiple tables in a single statement. 
 
 
 ```python
-cur.execute("""SELECT * 
-               FROM orderdetails
-               JOIN products
-               ON orderdetails.productCode = products.productCode
-               LIMIT 10;
-               """)
-
-# Take results and create DataFrame
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-df.head()
+q = """
+SELECT *
+FROM orderdetails
+JOIN products
+    ON orderdetails.productCode = products.productCode
+LIMIT 10
+;
+"""
+pd.read_sql(q, conn)
 ```
 
 
@@ -178,22 +174,104 @@ df.head()
       <td>58.48</td>
       <td>127.13</td>
     </tr>
+    <tr>
+      <th>5</th>
+      <td>10101</td>
+      <td>S18_2795</td>
+      <td>26</td>
+      <td>167.06</td>
+      <td>1</td>
+      <td>S18_2795</td>
+      <td>1928 Mercedes-Benz SSK</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Gearbox Collectibles</td>
+      <td>This 1:18 replica features grille-mounted chro...</td>
+      <td>548</td>
+      <td>72.56</td>
+      <td>168.75</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>10101</td>
+      <td>S24_1937</td>
+      <td>45</td>
+      <td>32.53</td>
+      <td>3</td>
+      <td>S24_1937</td>
+      <td>1939 Chevrolet Deluxe Coupe</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Motor City Art Classics</td>
+      <td>This 1:24 scale die-cast replica of the 1939 C...</td>
+      <td>7332</td>
+      <td>22.57</td>
+      <td>33.19</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>10101</td>
+      <td>S24_2022</td>
+      <td>46</td>
+      <td>44.35</td>
+      <td>2</td>
+      <td>S24_2022</td>
+      <td>1938 Cadillac V-16 Presidential Limousine</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Classic Metal Creations</td>
+      <td>This 1:24 scale precision die cast replica of ...</td>
+      <td>2847</td>
+      <td>20.61</td>
+      <td>44.80</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10102</td>
+      <td>S18_1342</td>
+      <td>39</td>
+      <td>95.55</td>
+      <td>2</td>
+      <td>S18_1342</td>
+      <td>1937 Lincoln Berline</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Motor City Art Classics</td>
+      <td>Features opening engine cover, doors, trunk, a...</td>
+      <td>8693</td>
+      <td>60.62</td>
+      <td>102.74</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10102</td>
+      <td>S18_1367</td>
+      <td>41</td>
+      <td>43.13</td>
+      <td>1</td>
+      <td>S18_1367</td>
+      <td>1936 Mercedes-Benz 500K Special Roadster</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Studio M Art Models</td>
+      <td>This 1:18 scale replica is constructed of heav...</td>
+      <td>8635</td>
+      <td>24.26</td>
+      <td>53.91</td>
+    </tr>
   </tbody>
 </table>
 </div>
 
 
 
-## Compared to the individual tables:
+## Compared to the Individual Tables:
 
-### orderdetails table:
+### `orderdetails` Table:
 
 
 ```python
-cur.execute("""SELECT * FROM orderdetails LIMIT 10;""")
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-df.head()
+pd.read_sql("""SELECT * FROM orderdetails LIMIT 10;""", conn)
 ```
 
 
@@ -265,20 +343,57 @@ df.head()
       <td>108.06</td>
       <td>4</td>
     </tr>
+    <tr>
+      <th>5</th>
+      <td>10101</td>
+      <td>S18_2795</td>
+      <td>26</td>
+      <td>167.06</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>10101</td>
+      <td>S24_1937</td>
+      <td>45</td>
+      <td>32.53</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>10101</td>
+      <td>S24_2022</td>
+      <td>46</td>
+      <td>44.35</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10102</td>
+      <td>S18_1342</td>
+      <td>39</td>
+      <td>95.55</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10102</td>
+      <td>S18_1367</td>
+      <td>41</td>
+      <td>43.13</td>
+      <td>1</td>
+    </tr>
   </tbody>
 </table>
 </div>
 
 
 
-### products table:
+### `products` Table:
 
 
 ```python
-cur.execute("""SELECT * FROM products LIMIT 10;""")
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-df.head()
+pd.read_sql("""SELECT * FROM products LIMIT 10;""", conn)
 ```
 
 
@@ -374,6 +489,66 @@ df.head()
       <td>85.68</td>
       <td>136.00</td>
     </tr>
+    <tr>
+      <th>5</th>
+      <td>S10_4962</td>
+      <td>1962 LanciaA Delta 16V</td>
+      <td>Classic Cars</td>
+      <td>1:10</td>
+      <td>Second Gear Diecast</td>
+      <td>Features include: Turnable front wheels; steer...</td>
+      <td>6791</td>
+      <td>103.42</td>
+      <td>147.74</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>S12_1099</td>
+      <td>1968 Ford Mustang</td>
+      <td>Classic Cars</td>
+      <td>1:12</td>
+      <td>Autoart Studio Design</td>
+      <td>Hood, doors and trunk all open to reveal highl...</td>
+      <td>68</td>
+      <td>95.34</td>
+      <td>194.57</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>S12_1108</td>
+      <td>2001 Ferrari Enzo</td>
+      <td>Classic Cars</td>
+      <td>1:12</td>
+      <td>Second Gear Diecast</td>
+      <td>Turnable front wheels; steering function; deta...</td>
+      <td>3619</td>
+      <td>95.59</td>
+      <td>207.80</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>S12_1666</td>
+      <td>1958 Setra Bus</td>
+      <td>Trucks and Buses</td>
+      <td>1:12</td>
+      <td>Welly Diecast Productions</td>
+      <td>Model features 30 windows, skylights &amp; glare r...</td>
+      <td>1579</td>
+      <td>77.90</td>
+      <td>136.67</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>S12_2823</td>
+      <td>2002 Suzuki XREO</td>
+      <td>Motorcycles</td>
+      <td>1:12</td>
+      <td>Unimax Art Galleries</td>
+      <td>Official logos and insignias, saddle bags loca...</td>
+      <td>9997</td>
+      <td>66.27</td>
+      <td>150.62</td>
+    </tr>
   </tbody>
 </table>
 </div>
@@ -381,18 +556,19 @@ df.head()
 
 
 ## The `USING` clause
-A more concise way to join the tables, if the column name is identical, is the `USING` clause. Rather then saying on `tableA.column = tableB.column` we can simply say `using(column)`. Again, this only works if the column is **identically named** for both tables.
+A more concise way to join the tables, if the column name is identical, is the `USING` clause. Rather then saying on `tableA.column = tableB.column` we can simply say `USING(column)`. Again, this only works if the column is **identically named** for both tables.
 
 
 ```python
-cur.execute("""SELECT * FROM orderdetails
-               JOIN products
-               USING(productCode)
-               LIMIT 10;
-               """)
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-df.head()
+q = """
+SELECT *
+FROM orderdetails
+JOIN products
+    USING(productCode)
+LIMIT 10
+;
+"""
+pd.read_sql(q, conn)
 ```
 
 
@@ -511,6 +687,86 @@ df.head()
       <td>9354</td>
       <td>58.48</td>
       <td>127.13</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>10101</td>
+      <td>S18_2795</td>
+      <td>26</td>
+      <td>167.06</td>
+      <td>1</td>
+      <td>1928 Mercedes-Benz SSK</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Gearbox Collectibles</td>
+      <td>This 1:18 replica features grille-mounted chro...</td>
+      <td>548</td>
+      <td>72.56</td>
+      <td>168.75</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>10101</td>
+      <td>S24_1937</td>
+      <td>45</td>
+      <td>32.53</td>
+      <td>3</td>
+      <td>1939 Chevrolet Deluxe Coupe</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Motor City Art Classics</td>
+      <td>This 1:24 scale die-cast replica of the 1939 C...</td>
+      <td>7332</td>
+      <td>22.57</td>
+      <td>33.19</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>10101</td>
+      <td>S24_2022</td>
+      <td>46</td>
+      <td>44.35</td>
+      <td>2</td>
+      <td>1938 Cadillac V-16 Presidential Limousine</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Classic Metal Creations</td>
+      <td>This 1:24 scale precision die cast replica of ...</td>
+      <td>2847</td>
+      <td>20.61</td>
+      <td>44.80</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10102</td>
+      <td>S18_1342</td>
+      <td>39</td>
+      <td>95.55</td>
+      <td>2</td>
+      <td>1937 Lincoln Berline</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Motor City Art Classics</td>
+      <td>Features opening engine cover, doors, trunk, a...</td>
+      <td>8693</td>
+      <td>60.62</td>
+      <td>102.74</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10102</td>
+      <td>S18_1367</td>
+      <td>41</td>
+      <td>43.13</td>
+      <td>1</td>
+      <td>1936 Mercedes-Benz 500K Special Roadster</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Studio M Art Models</td>
+      <td>This 1:18 scale replica is constructed of heav...</td>
+      <td>8635</td>
+      <td>24.26</td>
+      <td>53.91</td>
     </tr>
   </tbody>
 </table>
@@ -519,18 +775,25 @@ df.head()
 
 
 ## More Aliasing 
-Alternatively, you can also assign **tables** an alias by entering an alternative shorthand name directly after them. This is slightly different than the previous lesson where we included the `AS` keyword when creating an alias. Here we use the aliases 'o' and 'p' for `orderdetails` and `products`, respectively.
+
+You can also assign tables an **alias** by entering an alternative shorthand name. This is slightly different than the previous lesson where we introduced aliases for column names, since now we are aliasing *tables*.
+
+When aliasing columns the goal is usually to improve readability by giving something a more specific or easier-to-read name. For example, `name AS employee_name`, `AVG(AVG) AS average_batting_average`, or `COUNT(*) AS num_products`.
+
+When aliasing tables the goal is usually to shorten the name, in order to shorten the overall query. So typically you'll see examples that alias a longer table name to a one-character or two-character shorthand. For example, `orderdetails AS od` or `products AS p`. (It is also possible to use aliases to clarify what exactly is in a table, like how aliases are used for columns, just less common.)
+
+The following query produces the same result as the previous ones, using aliases `od` and `p` for `orderdetails` and `products`, respectively:
 
 
 ```python
-cur.execute("""SELECT * FROM orderdetails o
-               JOIN products p
-               ON o.productCode = p.productCode
-               LIMIT 10;
-               """)
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-df.head()
+q = """
+SELECT *
+FROM orderdetails AS od
+JOIN products AS p
+    ON od.productCode = p.productCode
+LIMIT 10;
+"""
+pd.read_sql(q, conn)
 ```
 
 
@@ -656,11 +919,100 @@ df.head()
       <td>58.48</td>
       <td>127.13</td>
     </tr>
+    <tr>
+      <th>5</th>
+      <td>10101</td>
+      <td>S18_2795</td>
+      <td>26</td>
+      <td>167.06</td>
+      <td>1</td>
+      <td>S18_2795</td>
+      <td>1928 Mercedes-Benz SSK</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Gearbox Collectibles</td>
+      <td>This 1:18 replica features grille-mounted chro...</td>
+      <td>548</td>
+      <td>72.56</td>
+      <td>168.75</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>10101</td>
+      <td>S24_1937</td>
+      <td>45</td>
+      <td>32.53</td>
+      <td>3</td>
+      <td>S24_1937</td>
+      <td>1939 Chevrolet Deluxe Coupe</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Motor City Art Classics</td>
+      <td>This 1:24 scale die-cast replica of the 1939 C...</td>
+      <td>7332</td>
+      <td>22.57</td>
+      <td>33.19</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>10101</td>
+      <td>S24_2022</td>
+      <td>46</td>
+      <td>44.35</td>
+      <td>2</td>
+      <td>S24_2022</td>
+      <td>1938 Cadillac V-16 Presidential Limousine</td>
+      <td>Vintage Cars</td>
+      <td>1:24</td>
+      <td>Classic Metal Creations</td>
+      <td>This 1:24 scale precision die cast replica of ...</td>
+      <td>2847</td>
+      <td>20.61</td>
+      <td>44.80</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>10102</td>
+      <td>S18_1342</td>
+      <td>39</td>
+      <td>95.55</td>
+      <td>2</td>
+      <td>S18_1342</td>
+      <td>1937 Lincoln Berline</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Motor City Art Classics</td>
+      <td>Features opening engine cover, doors, trunk, a...</td>
+      <td>8693</td>
+      <td>60.62</td>
+      <td>102.74</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10102</td>
+      <td>S18_1367</td>
+      <td>41</td>
+      <td>43.13</td>
+      <td>1</td>
+      <td>S18_1367</td>
+      <td>1936 Mercedes-Benz 500K Special Roadster</td>
+      <td>Vintage Cars</td>
+      <td>1:18</td>
+      <td>Studio M Art Models</td>
+      <td>This 1:18 scale replica is constructed of heav...</td>
+      <td>8635</td>
+      <td>24.26</td>
+      <td>53.91</td>
+    </tr>
   </tbody>
 </table>
 </div>
 
 
+
+Note that just like with column aliases, the `AS` keyword is optional in SQLite. So, instead of `FROM orderdetails AS od` you could write `FROM orderdetails od` with the same outcome.
+
+It is somewhat more common to see `AS` used with column aliases and skipped with table aliases, but again, you'll want to check the syntax rules of your particular type of SQL as well as style guidelines from your employer to know which syntax to use in a professional setting.
 
 ## `LEFT JOIN`s
 
@@ -668,34 +1020,40 @@ By default a `JOIN` is an `INNER JOIN`, or the intersection between two tables. 
 
 The `LEFT JOIN` keyword returns all records from the left table (table1), and the matched records from the right table (table2). The result is NULL from the right side if there is no match.
 
-There are many other types of joins, displayed below. Of these, sqlite does not support outer joins, but it is good to be aware of as more powerful versions of sql such as PostgreSQL support these additional functions.
+There are many other types of joins, displayed below. Of these, SQLite does not support outer joins, but it is good to be aware of as more powerful versions of SQL such as PostgreSQL support these additional functions.
 
 <img src='images/venn.png' width="700">
 
 For example, the statement  
   
-`SELECT * FROM products LEFT JOIN orderdetails; `  
+`SELECT * FROM products LEFT JOIN orderdetails `  
 
 would return all products, even those that hadn't been ordered. 
 You can imagine that all products in inventory should have a description in the product table, but perhaps not every product is represented in the orderdetails table. 
 
 
 ```python
-cur.execute("""SELECT * 
-               FROM products
-               LEFT JOIN orderdetails
-               USING(productCode);
-               """)
-df = pd.DataFrame(cur.fetchall()) 
-df.columns = [i[0] for i in cur.description]
-print(len(df))
-print(len(df[df.orderNumber.isnull()]))
-df[df.orderNumber.isnull()].head()
+q = """
+SELECT *
+FROM products
+LEFT JOIN orderdetails
+    USING(productCode)
+;
+"""
+df = pd.read_sql(q, conn)
+
+print("Number of records returned:", len(df))
+print("Number of records where order details are null:", len(df[df.orderNumber.isnull()]))
 ```
 
-    2997
-    1
+    Number of records returned: 2997
+    Number of records where order details are null: 1
 
+
+
+```python
+df[df.orderNumber.isnull()]
+```
 
 
 
@@ -767,15 +1125,15 @@ You can also join tables using **foreign keys** which are not the primary key fo
 
 
 ```python
-cur.execute("""SELECT * 
-               FROM customers c
-               JOIN employees e
-               ON c.salesRepEmployeeNumber = e.employeeNumber
-               ORDER BY employeeNumber;
-               """)
-df = pd.DataFrame(cur.fetchall())
-df.columns = [i[0] for i in cur.description]
-df.head()
+q = """
+SELECT *
+FROM customers AS c
+JOIN employees AS e
+    ON c.salesRepEmployeeNumber = e.employeeNumber
+ORDER By employeeNumber
+;
+"""
+pd.read_sql(q, conn)
 ```
 
 
@@ -943,14 +1301,158 @@ df.head()
       <td>1143</td>
       <td>Sales Rep</td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>95</th>
+      <td>298</td>
+      <td>Vida Sport, Ltd</td>
+      <td>Holz</td>
+      <td>Mihael</td>
+      <td>0897-034555</td>
+      <td>Grenzacherweg 237</td>
+      <td></td>
+      <td>Genève</td>
+      <td></td>
+      <td>1203</td>
+      <td>...</td>
+      <td>1702</td>
+      <td>141300</td>
+      <td>1702</td>
+      <td>Gerard</td>
+      <td>Martin</td>
+      <td>x2312</td>
+      <td>mgerard@classicmodelcars.com</td>
+      <td>4</td>
+      <td>1102</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>344</td>
+      <td>CAF Imports</td>
+      <td>Fernandez</td>
+      <td>Jesus</td>
+      <td>+34 913 728 555</td>
+      <td>Merchants House</td>
+      <td>27-30 Merchant's Quay</td>
+      <td>Madrid</td>
+      <td></td>
+      <td>28023</td>
+      <td>...</td>
+      <td>1702</td>
+      <td>59600</td>
+      <td>1702</td>
+      <td>Gerard</td>
+      <td>Martin</td>
+      <td>x2312</td>
+      <td>mgerard@classicmodelcars.com</td>
+      <td>4</td>
+      <td>1102</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>97</th>
+      <td>376</td>
+      <td>Precious Collectables</td>
+      <td>Urs</td>
+      <td>Braun</td>
+      <td>0452-076555</td>
+      <td>Hauptstr. 29</td>
+      <td></td>
+      <td>Bern</td>
+      <td></td>
+      <td>3012</td>
+      <td>...</td>
+      <td>1702</td>
+      <td>0</td>
+      <td>1702</td>
+      <td>Gerard</td>
+      <td>Martin</td>
+      <td>x2312</td>
+      <td>mgerard@classicmodelcars.com</td>
+      <td>4</td>
+      <td>1102</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>458</td>
+      <td>Corrida Auto Replicas, Ltd</td>
+      <td>Sommer</td>
+      <td>Martín</td>
+      <td>(91) 555 22 82</td>
+      <td>C/ Araquil, 67</td>
+      <td></td>
+      <td>Madrid</td>
+      <td></td>
+      <td>28023</td>
+      <td>...</td>
+      <td>1702</td>
+      <td>104600</td>
+      <td>1702</td>
+      <td>Gerard</td>
+      <td>Martin</td>
+      <td>x2312</td>
+      <td>mgerard@classicmodelcars.com</td>
+      <td>4</td>
+      <td>1102</td>
+      <td>Sales Rep</td>
+    </tr>
+    <tr>
+      <th>99</th>
+      <td>484</td>
+      <td>Iberia Gift Imports, Corp.</td>
+      <td>Roel</td>
+      <td>José Pedro</td>
+      <td>(95) 555 82 82</td>
+      <td>C/ Romero, 33</td>
+      <td></td>
+      <td>Sevilla</td>
+      <td></td>
+      <td>41101</td>
+      <td>...</td>
+      <td>1702</td>
+      <td>65700</td>
+      <td>1702</td>
+      <td>Gerard</td>
+      <td>Martin</td>
+      <td>x2312</td>
+      <td>mgerard@classicmodelcars.com</td>
+      <td>4</td>
+      <td>1102</td>
+      <td>Sales Rep</td>
+    </tr>
   </tbody>
 </table>
-<p>5 rows × 21 columns</p>
+<p>100 rows × 21 columns</p>
 </div>
 
 
 
-Notice that this also returned both columns: `salesRepEmployeeNumber` and `employeeNumber`.
+Notice that this also returned both columns: `salesRepEmployeeNumber` and `employeeNumber`. These columns contain identical values so you would probably actually only want to select one or the other.
 
 ## Summary
 
